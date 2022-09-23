@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 const corsOptions ={
-    origin:'https://detailbook-server.herokuapp.com/', 
+    origin:'https://detailbook-server.herokuapp.com', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200,
  }
