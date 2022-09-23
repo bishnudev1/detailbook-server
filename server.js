@@ -23,7 +23,7 @@ const Stories = require('./models/stories');
 app.get('/', async (req, res) => {
     //res.status(201).send('Hello,World!');
     const allUsers = await User.find();
-    res.status(201).send(allUsers);
+    res.send(allUsers);
 });
 
 app.get('/about', Auth, (req, res) => {
