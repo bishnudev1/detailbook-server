@@ -20,8 +20,10 @@ require('./db/conn');
 const User = require('./models/users');
 const Stories = require('./models/stories');
 
-app.get('/', (req, res) => {
-    res.status(201).send('Hello,World!');
+app.get('/', async (req, res) => {
+    //res.status(201).send('Hello,World!');
+    const allUsers = await User.find();
+    res.status(201).send(allUsers);
 });
 
 app.get('/about', Auth, (req, res) => {
