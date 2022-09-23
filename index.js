@@ -37,7 +37,16 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/about', Auth, (req, res) => {
-    res.status(201).send(req.user);
+    const token = req.cookies.jwt;
+    if(!token){
+        res.status(404).json({
+            success:false,
+            message:'You are not signed in'
+        })
+    }
+    else{
+        res.status(201).send(req.user);
+    }
 });
 
 app.post('/register', async (req, res) => {
