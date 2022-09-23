@@ -21,7 +21,7 @@ const User = require('./models/users');
 const Stories = require('./models/stories');
 
 app.get('/', (req, res) => {
-    res.send('Hello,World!');
+    res.status(201).send('Hello,World!');
 });
 
 app.get('/about', Auth, (req, res) => {
