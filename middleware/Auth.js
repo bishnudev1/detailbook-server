@@ -7,8 +7,9 @@ module.exports = async function Auth (req,res,next){
         
            if(!token){
                 res.status(404).json({
-                    message:'User not logged in');
-                });
+                    status:false,
+                    message:'You are not signed in'
+                })
                next();
            }
             else{

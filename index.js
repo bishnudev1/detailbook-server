@@ -4,22 +4,19 @@ const cookieParser = require('cookie-parser');
 const Auth = require('./middleware/Auth');
 const cors = require('cors');
 
-require('dotenv').config({path:'config.env'});
+require('dotenv').config({ path: 'config.env' });
 
 const port = process.env.PORT || 5000;
 
-const corsOptions = {
-    origin: true, //included origin as true
-    credentials: true, //included credentials as true
-};
 
 
 const app = express();
 
-const corsOptions = {
-    origin: true, //included origin as true
-    credentials: true, //included credentials as true
-};
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
 
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -31,22 +28,11 @@ const User = require('./models/users');
 const Stories = require('./models/stories');
 
 app.get('/', async (req, res) => {
-    //res.status(201).send('Hello,World!');
-    const allUsers = await User.find();
-    res.send(allUsers);
+    res.status(201).send('Hola sir, I am from server of Detailbook !');
 });
 
 app.get('/about', Auth, (req, res) => {
-    const token = req.cookies.jwt;
-    if(!token){
-        res.status(404).json({
-            success:false,
-            message:'You are not signed in'
-        })
-    }
-    else{
-        res.status(201).send(req.user);
-    }
+    res.status(201).send(req.user);
 });
 
 app.post('/register', async (req, res) => {
@@ -163,7 +149,7 @@ app.put('/update-profile/:id', async (req, res) => {
                 docs.save();
                 const token = await docs.generateToken();
                 res.status(201).json({
-                    status:true,
+                    status: true,
                     docs,
                     token
                 })
@@ -187,12 +173,12 @@ app.delete('/delete-account/:id', async (req, res) => {
     }
 })
 
-app.delete('/delete-story/:id',async (req,res) => {
+app.delete('/delete-story/:id', async (req, res) => {
     const id = req.params.id;
     try {
         await Stories.findByIdAndRemove(id).exec();
         res.status(201).json({
-            success:true
+            success: true
         });
     } catch (error) {
         console.log(error);
