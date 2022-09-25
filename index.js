@@ -157,12 +157,23 @@ app.put('/update-profile/:id', async (req, res) => {
 
 app.delete('/delete-account/:id', async (req, res) => {
     const id = req.params.id;
+    const { pwd } = req.body;
     try {
-        await User.findByIdAndRemove(id).exec();
-        res.status(201).json({
-            success: true,
-            message: 'Account has been deleted'
-        });
+        const user = await User.findById(id);
+        const isMatched = await bcrypt.compare(pwd, user.password);
+        if (isMatched) {
+            await User.findByIdAndRemove(id).exec();
+            res.status(201).json({
+                success: true,
+                message: 'Account has been deleted'
+            });
+        }
+        else {
+            res.status(422).json({
+                status: false,
+                message: 'Sorry we failed to verify it is you'
+            })
+        }
     } catch (error) {
         console.log(error);
     }
